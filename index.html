@@ -1,114 +1,61 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#082f49">
-<title>Bikini Beach — Telegram Mini App</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#073b4c"><title>Bikini Beach Club</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-:root{--navy:#082f49;--teal:#0f766e;--mint:#ccfbf1;--pink:#fb7185;--sand:#ffedd5;--ink:#163047}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:linear-gradient(160deg,#cffafe,#fef3c7 60%,#fbcfe8);min-height:100vh}
-.app{max-width:520px;margin:auto;min-height:100vh;padding:16px 16px 30px}
-header{display:flex;justify-content:space-between;align-items:center;color:var(--navy);margin:4px 0 14px}
-.brand{font-weight:900;font-size:21px;letter-spacing:-.7px}.coins{background:#fff9;border:1px solid #fff;padding:8px 12px;border-radius:99px;font-weight:800}
-.hero{background:linear-gradient(135deg,#0e7490,#115e59);color:white;border-radius:24px;padding:20px;box-shadow:0 12px 28px #0f766e30;position:relative;overflow:hidden}
-.hero:after{content:"☀️";position:absolute;font-size:90px;right:8px;top:0;opacity:.24}
-.eyebrow{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;opacity:.8}
-h1{font-size:29px;line-height:1.05;margin:8px 0}.hero p{max-width:78%;font-size:14px;opacity:.9;margin:8px 0 14px}
-.progressline{height:8px;background:#ffffff45;border-radius:20px;overflow:hidden}.progressfill{height:100%;background:#fde68a;width:0;transition:.3s}
-.stats{display:flex;justify-content:space-between;font-size:12px;margin-top:8px;font-weight:700}
-.panel{background:#ffffffd9;border:1px solid #fff;border-radius:22px;padding:16px;margin-top:14px;box-shadow:0 8px 20px #164e6330}
-.panelhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-h2{font-size:17px;margin:0;color:var(--navy)}.muted{font-size:12px;color:#64748b}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
-.tile{border:0;border-radius:15px;aspect-ratio:1;background:linear-gradient(145deg,#0e7490,#164e63);color:white;font-size:26px;font-weight:800;box-shadow:inset 0 -4px #08334455;cursor:pointer}
-.tile.revealed{background:#fff7ed;color:#0f766e;border:2px solid #99f6e4;box-shadow:none}
-.tile.matched{background:#d1fae5;color:#0f766e;border:2px solid #5eead4;box-shadow:none}
-button:disabled{opacity:.65;cursor:default}
-.actions{display:flex;gap:9px;margin-top:13px}.primary,.secondary{border:0;border-radius:14px;padding:12px 15px;font-weight:800;cursor:pointer}.primary{background:var(--pink);color:white;flex:1;box-shadow:0 4px #be123c}.secondary{background:#e0f2fe;color:#075985}
-.message{font-size:13px;min-height:20px;margin-top:9px;color:#0f766e;font-weight:700}
-.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.character{border-radius:17px;padding:12px;background:linear-gradient(160deg,#fce7f3,#ffedd5);min-height:145px;position:relative;overflow:hidden}
-.character.locked{filter:saturate(.3);background:#e2e8f0}
-.avatar{font-size:43px;line-height:1.2}.character strong{display:block;font-size:14px}.character small{color:#64748b}
-.lock{position:absolute;right:10px;top:10px;font-size:18px}
-footer{text-align:center;color:#64748b;font-size:11px;margin:18px 0 0}
-#win{display:none;text-align:center;background:#fef3c7;border:1px solid #fcd34d;padding:13px;border-radius:15px;margin-top:12px}
-</style>
-</head>
-<body>
-<div class="app">
-<header><div class="brand">🌴 BIKINI BEACH</div><div class="coins">🪙 <span id="coins">0</span></div></header>
-<section class="hero">
- <div class="eyebrow">Summer puzzle club</div><h1>Play. Match.<br>Unlock the beach.</h1>
- <p>Clear each memory challenge to collect stars and discover new beach-style characters.</p>
- <div class="progressline"><div class="progressfill" id="progress"></div></div>
- <div class="stats"><span id="levelLabel">LEVEL 1 / 4</span><span id="starsLabel">⭐ 0 / 4</span></div>
-</section>
-<section class="panel">
- <div class="panelhead"><h2 id="challengeTitle">Level 1 · Shell match</h2><span class="muted" id="moves">Moves: 0</span></div>
- <p class="muted">Find all matching pairs. Tap two cards to flip them.</p>
- <div class="grid" id="board"></div>
- <div class="message" id="message">Ready? Find the matching beach icons!</div>
- <div id="win"><strong>✨ Level cleared!</strong><br><span id="winText">You earned 1 star and 25 coins.</span></div>
- <div class="actions"><button class="primary" id="next" disabled>Next level →</button><button class="secondary" id="reset">Restart</button></div>
-</section>
-<section class="panel">
- <div class="panelhead"><h2>Beach collection</h2><span class="muted" id="unlocked">0 / 4 unlocked</span></div>
- <div class="gallery" id="gallery"></div>
-</section>
-<footer>All characters are fictional adults (21+). Progress is saved on this device.</footer>
-</div>
+:root{--deep:#073b4c;--sea:#087e8b;--aqua:#b8f2e6;--coral:#ff6b8a;--sun:#ffd166;--ink:#17324d}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#b8f2e6,#fff0d9 58%,#ffd6e0);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink)}
+.app{max-width:560px;margin:auto;padding:14px 14px 32px;min-height:100vh}
+header{display:flex;align-items:center;justify-content:space-between;margin:4px 0 12px}.logo{font-size:20px;font-weight:950;color:var(--deep);letter-spacing:-.8px}.wallet{background:#fff9;padding:8px 12px;border-radius:99px;font-weight:850;border:1px solid #fff}
+.hero{border-radius:25px;padding:20px;color:#fff;background:linear-gradient(130deg,#073b4c,#087e8b 60%,#38a3a5);box-shadow:0 12px 25px #073b4c30;position:relative;overflow:hidden}.hero:after{content:"🌴";position:absolute;font-size:100px;right:3px;top:10px;opacity:.24}
+.kicker{font-size:10px;letter-spacing:1.6px;font-weight:900;opacity:.8}.hero h1{font-size:30px;line-height:1.02;margin:7px 0}.hero p{font-size:13px;max-width:75%;opacity:.9;margin:8px 0 14px}
+.track{height:8px;border-radius:99px;background:#ffffff44;overflow:hidden}.fill{height:100%;width:0;background:var(--sun);transition:.3s}.stats{display:flex;justify-content:space-between;font-size:11px;font-weight:800;margin-top:7px}
+.panel{background:#ffffffdb;border:1px solid #fff;border-radius:21px;padding:15px;margin-top:13px;box-shadow:0 8px 20px #164e6330}.head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:9px}h2{font-size:17px;color:var(--deep);margin:0}.sub{font-size:11px;color:#64748b}
+.tabs{display:flex;gap:7px;margin:12px 0 0}.tab{flex:1;border:0;border-radius:12px;padding:10px 4px;background:#ffffffa8;color:#075985;font-weight:850;font-size:12px}.tab.active{background:var(--deep);color:#fff}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.tile{border:0;border-radius:14px;aspect-ratio:1;background:linear-gradient(145deg,#087e8b,#073b4c);color:white;font-size:25px;font-weight:900;box-shadow:inset 0 -4px #052b3a66;cursor:pointer}.tile.open,.tile.done{background:#fff7ed;color:#087e8b;border:2px solid #99f6e4;box-shadow:none}.tile.done{background:#d1fae5}
+.rowbtn{display:flex;gap:8px;margin-top:12px}.primary,.secondary{border:0;border-radius:13px;padding:12px;font-weight:900;cursor:pointer}.primary{background:var(--coral);color:white;box-shadow:0 4px #c24162;flex:1}.secondary{background:#e0f2fe;color:#075985}.primary:disabled{opacity:.5}
+.note{font-size:12px;color:#0f766e;font-weight:750;min-height:18px;margin-top:9px}.win{display:none;text-align:center;background:#fef3c7;border:1px solid #fcd34d;padding:12px;border-radius:14px;margin-top:10px;font-size:13px}
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.person{border-radius:17px;overflow:hidden;background:linear-gradient(145deg,#fbcfe8,#ffedd5);min-height:160px;position:relative;padding:0}.person.locked{background:linear-gradient(145deg,#e2e8f0,#cbd5e1)}.portrait{height:104px;display:flex;align-items:center;justify-content:center;font-size:65px;background:radial-gradient(circle at 50% 35%,#fff9,#f9a8d455 60%,#fb718555)}.person.locked .portrait{filter:grayscale(1);opacity:.65}.pinfo{padding:8px 10px}.pinfo b{display:block;font-size:13px}.pinfo small{font-size:10px;color:#64748b}.lock{position:absolute;right:8px;top:7px;background:#ffffffc9;border-radius:99px;padding:4px 7px;font-size:12px}
+.beaches{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.beach{border-radius:15px;padding:13px;color:white;min-height:95px;background:linear-gradient(140deg,#0e7490,#155e75);position:relative;overflow:hidden}.beach:nth-child(2){background:linear-gradient(140deg,#be185d,#7c3aed)}.beach:nth-child(3){background:linear-gradient(140deg,#0f766e,#65a30d)}.beach:nth-child(4){background:linear-gradient(140deg,#c2410c,#be185d)}.beach .emoji{font-size:30px}.beach b{display:block;font-size:13px}.beach small{opacity:.85}.beach.locked{filter:grayscale(.8);opacity:.7}
+.reward{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:15px;padding:12px}.reward b{font-size:13px}.reward small{display:block;color:#64748b;font-size:10px}
+footer{text-align:center;color:#64748b;font-size:10px;margin:16px 0}
+</style></head>
+<body><main class="app">
+<header><div class="logo">🌴 BIKINI BEACH CLUB</div><div class="wallet">🪙 <span id="coins">0</span></div></header>
+<section class="hero"><div class="kicker">YOUR SUMMER ADVENTURE</div><h1>Match the memories.<br>Unlock the coast.</h1><p>Play quick puzzles, collect stars, discover new beach spots and style your character collection.</p><div class="track"><div class="fill" id="fill"></div></div><div class="stats"><span id="levelText">LEVEL 1 / 8</span><span id="starText">⭐ 0 / 8</span></div></section>
+<nav class="tabs"><button class="tab active" data-tab="play">🎮 Play</button><button class="tab" data-tab="collection">👙 Collection</button><button class="tab" data-tab="islands">🏝️ Islands</button></nav>
+<section id="play" class="panel"><div class="head"><h2 id="levelName">Level 1 · Seashells</h2><span class="sub" id="moves">Moves: 0</span></div><div class="sub">Find every matching pair to clear the level.</div><div class="board" id="board"></div><div class="note" id="message">Tap any two cards to find a pair.</div><div class="win" id="win"><b>✨ Beach level cleared!</b><br><span id="winText">You earned a star and coins.</span></div><div class="rowbtn"><button class="primary" id="next" disabled>Next level →</button><button class="secondary" id="restart">Restart</button></div></section>
+<section id="collection" class="panel" hidden><div class="head"><h2>Character collection</h2><span class="sub" id="unlocked">0 / 4</span></div><div class="sub" style="margin-bottom:10px">Meet the fictional adult beach club crew. Clear levels to unlock their summer looks.</div><div class="gallery" id="gallery"></div></section>
+<section id="islands" class="panel" hidden><div class="head"><h2>Explore the islands</h2><span class="sub" id="islandCount">1 / 4 open</span></div><div class="beaches" id="beaches"></div><div class="rowbtn"><button class="secondary" id="premium">✨ Unlock style pack · 100 coins</button></div><div class="note" id="premiumMsg">Style pack adds bonus outfit themes to your collection.</div></section>
+<section class="panel"><div class="head"><h2>Daily sunshine</h2><span class="sub">Come back each day</span></div><div class="reward"><div>☀️ <b>Daily beach bonus</b><small id="dailyText">Claim today's reward</small></div><button class="primary" id="daily" style="flex:0 0 auto">Claim +20</button></div></section>
+<footer>Fictional adult characters (21+). No real-money purchases. Progress is saved on this device.</footer>
+</main>
 <script>
-const tg=window.Telegram?.WebApp;
-if(tg){tg.ready();tg.expand();try{tg.setHeaderColor('#082f49');tg.setBackgroundColor('#cffafe')}catch(e){}}
+const tg=window.Telegram?.WebApp;if(tg){tg.ready();tg.expand();try{tg.setHeaderColor('#073b4c');tg.setBackgroundColor('#b8f2e6')}catch(e){}}
 const levels=[
- {name:"Shell match",icons:["🐚","🌺","🐠","🍍"]},
- {name:"Ocean treasures",icons:["🦀","⭐","🐬","🪸"]},
- {name:"Tropical treats",icons:["🥥","🍉","🧉","🍋"]},
- {name:"Sunset memories",icons:["🌴","🌅","🕶️","🩴"]}
-];
-const people=[
- {name:"Maya · Coral Bay",look:"Coral swimsuit • sunny shore",emoji:"👩🏻‍🦰",desc:"The cheerful beach explorer"},
- {name:"Sofia · Palm Cove",look:"Turquoise swimsuit • palm beach",emoji:"👩🏽",desc:"The laid-back island artist"},
- {name:"Luna · Sunset Point",look:"Violet swimsuit • golden hour",emoji:"👩🏾‍🦱",desc:"The sunset photographer"},
- {name:"Nina · Blue Lagoon",look:"Ocean-blue swimsuit • lagoon",emoji:"👩🏼‍🦱",desc:"The adventurous swimmer"}
-];
-let level=0,coins=0,stars=0,moves=0,deck=[],first=null,lock=false,cleared=false;
-try{const s=JSON.parse(localStorage.getItem("bb-save")||"{}");level=Math.min(s.level||0,3);coins=s.coins||0;stars=s.stars||0}catch(e){}
-const $=id=>document.getElementById(id);
-function save(){try{localStorage.setItem("bb-save",JSON.stringify({level,coins,stars}))}catch(e){}}
+["Seashells",["🐚","🌺","🐠","🍍"]],["Ocean treasures",["🦀","⭐","🐬","🪸"]],["Tropical treats",["🥥","🍉","🧉","🍋"]],["Sunset memories",["🌴","🌅","🕶️","🩴"]],
+["Lagoon life",["🦩","🪷","🐢","🪼"]],["Beach picnic",["🍓","🍹","🍒","🍦"]],["Coral garden",["🐙","🦑","🐡","🦋"]],["Island getaway",["⛵","🏄","🛟","🌞"]]];
+const cast=[["Maya · Coral Bay","Coral swim look · Sunny shore","👩🏻‍🦰"],["Sofia · Palm Cove","Turquoise swim look · Palm beach","👩🏽"],["Luna · Sunset Point","Violet swim look · Golden hour","👩🏾‍🦱"],["Nina · Blue Lagoon","Ocean-blue swim look · Lagoon","👩🏼‍🦱"]];
+const spots=[["🐚","Coral Bay","Clear level 1"],["🌴","Palm Cove","Clear level 3"],["🌅","Sunset Point","Clear level 5"],["🐬","Blue Lagoon","Clear level 7"]];
+let state={level:0,coins:0,stars:0,claimed:"",premium:false};try{state={...state,...JSON.parse(localStorage.getItem("bbc-save")||"{}")}}catch(e){}
+state.level=Math.min(7,Math.max(0,state.level||0));let deck=[],first=null,lock=false,done=false,moves=0;
+const $=x=>document.getElementById(x);function save(){try{localStorage.setItem("bbc-save",JSON.stringify(state))}catch(e){}}
+function sound(freq=520,dur=.09){try{let c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.frequency.value=freq;o.connect(g);g.connect(c.destination);g.gain.setValueAtTime(.045,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+dur);o.start();o.stop(c.currentTime+dur)}catch(e){}}
 function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function start(){
- first=null;lock=false;cleared=false;moves=0;$("moves").textContent="Moves: 0";$("win").style.display="none";$("next").disabled=true;
- $("challengeTitle").textContent=`Level ${level+1} · ${levels[level].name}`;
- deck=shuffle([...levels[level].icons,...levels[level].icons]).map((v,i)=>({v,id:i,shown:false,done:false}));
- render();$("message").textContent="Find all matching beach icons!";update();
-}
-function render(){
- const b=$("board");b.innerHTML="";
- deck.forEach((c,i)=>{const btn=document.createElement("button");btn.className="tile"+(c.shown?" revealed":"")+(c.done?" matched":"");btn.textContent=(c.shown||c.done)?c.v:"?";btn.disabled=c.done;btn.setAttribute("aria-label",(c.shown||c.done)?c.v:"Hidden card");btn.onclick=()=>flip(i);b.appendChild(btn)});
-}
-function flip(i){
- if(lock||cleared||deck[i].shown||deck[i].done)return;
- deck[i].shown=true;render();
- if(first===null){first=i;return}
- moves++;$("moves").textContent="Moves: "+moves;
- if(deck[first].v===deck[i].v){deck[first].done=true;deck[i].done=true;first=null;render();if(deck.every(c=>c.done))win()}
- else{lock=true;const prev=first;first=null;setTimeout(()=>{deck[prev].shown=false;deck[i].shown=false;lock=false;render()},700)}
-}
-function win(){
- cleared=true;stars=Math.max(stars,level+1);coins+=25;$("win").style.display="block";$("winText").textContent="You earned 1 star and 25 coins."; $("message").textContent="Beautiful work! The next beach stop is waiting."; $("next").disabled=false;save();update();
-}
-function update(){
- $("coins").textContent=coins;$("starsLabel").textContent=`⭐ ${stars} / 4`;$("levelLabel").textContent=`LEVEL ${level+1} / 4`;$("progress").style.width=(stars/4*100)+"%";
- $("unlocked").textContent=`${stars} / 4 unlocked`;
- $("gallery").innerHTML="";
- people.forEach((p,i)=>{const c=document.createElement("div");c.className="character"+(i>=stars?" locked":"");c.innerHTML=`<span class="lock">${i<stars?"✨":"🔒"}</span><div class="avatar">${i<stars?p.emoji:"🌴"}</div><strong>${i<stars?p.name:"Mystery beach guest"}</strong><small>${i<stars?p.look:"Clear level "+(i+1)+" to unlock"}</small>`;$("gallery").appendChild(c)});
-}
-$("next").onclick=()=>{if(level<3){level++;save();start()}else{$("message").textContent="You completed the whole beach collection! Restart to play again."; $("next").disabled=true}};
-$("reset").onclick=()=>start();
-start();
-</script>
-</body></html>
+function start(){first=null;lock=false;done=false;moves=0;$("moves").textContent="Moves: 0";$("win").style.display="none";$("next").disabled=true;$("levelName").textContent=`Level ${state.level+1} · ${levels[state.level][0]}`;deck=shuffle([...levels[state.level][1],...levels[state.level][1]]).map((v,i)=>({v,shown:false,matched:false}));render();$("message").textContent="Tap any two cards to find a pair.";update()}
+function render(){$("board").innerHTML="";deck.forEach((c,i)=>{let b=document.createElement("button");b.className="tile"+(c.shown?" open":"")+(c.matched?" done":"");b.textContent=c.shown||c.matched?c.v:"?";b.disabled=c.matched;b.onclick=()=>flip(i);$("board").append(b)})}
+function flip(i){if(lock||done||deck[i].shown||deck[i].matched)return;deck[i].shown=true;sound(430,.06);render();if(first===null){first=i;return}moves++;$("moves").textContent="Moves: "+moves;if(deck[first].v===deck[i].v){deck[first].matched=deck[i].matched=true;first=null;sound(720,.13);render();if(deck.every(x=>x.matched))win()}else{lock=true;let old=first;first=null;setTimeout(()=>{deck[old].shown=deck[i].shown=false;lock=false;render()},650)}}
+function win(){done=true;state.stars=Math.max(state.stars,state.level+1);state.coins+=25;$("win").style.display="block";$("winText").textContent="You earned 1 star and 25 coins!";$("message").textContent="Lovely matching! Your next destination awaits.";if(state.level===7)$("next").textContent="Collection complete";else $("next").textContent="Next level →";$("next").disabled=false;sound(850,.2);save();update()}
+function update(){$("coins").textContent=state.coins;$("starText").textContent=`⭐ ${state.stars} / 8`;$("levelText").textContent=`LEVEL ${state.level+1} / 8`;$("fill").style.width=(state.stars/8*100)+"%";
+$("gallery").innerHTML="";cast.forEach((p,i)=>{let unlocked=state.stars>=((i*2)+1),d=document.createElement("div");d.className="person"+(unlocked?"":" locked");d.innerHTML=`<span class="lock">${unlocked?"✨":"🔒"}</span><div class="portrait">${unlocked?p[2]:"🌴"}</div><div class="pinfo"><b>${unlocked?p[0]:"Mystery beach guest"}</b><small>${unlocked?p[1]:`Unlock at ${i*2+1} stars`}</small></div>`;$("gallery").append(d)});$("unlocked").textContent=cast.filter((p,i)=>state.stars>=i*2+1).length+" / 4 unlocked";
+$("beaches").innerHTML="";spots.forEach((s,i)=>{let open=state.stars>=i*2+1,d=document.createElement("div");d.className="beach"+(open?"":" locked");d.innerHTML=`<div class="emoji">${open?s[0]:"🔒"}</div><b>${open?s[1]:"Hidden island"}</b><small>${open?"Ready to explore":s[2]}</small>`;$("beaches").append(d)});$("islandCount").textContent=spots.filter((s,i)=>state.stars>=i*2+1).length+" / 4 open";
+let today=new Date().toISOString().slice(0,10),claimed=state.claimed===today;$("daily").disabled=claimed;$("daily").textContent=claimed?"Claimed ✓":"Claim +20";$("dailyText").textContent=claimed?"Today's sunshine bonus collected":"Claim 20 free coins today";$("premium").textContent=state.premium?"Style pack unlocked ✓":"✨ Unlock style pack · 100 coins";$("premium").disabled=state.premium}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));["play","collection","islands"].forEach(id=>$(id).hidden=id!==b.dataset.tab)});
+$("next").onclick=()=>{if(!done)return;if(state.level<7){state.level++;save();start()}else{$("message").textContent="You completed all eight levels! Replay any level with Restart.";$("next").disabled=true}};
+$("restart").onclick=start;
+$("daily").onclick=()=>{let today=new Date().toISOString().slice(0,10);if(state.claimed===today)return;state.claimed=today;state.coins+=20;save();update();$("premiumMsg").textContent="Daily sunshine collected — enjoy your coins!";sound(700,.15)};
+$("premium").onclick=()=>{if(state.premium)return;if(state.coins<100){$("premiumMsg").textContent="You need "+(100-state.coins)+" more coins. Win levels or claim daily rewards.";return}state.coins-=100;state.premium=true;save();update();$("premiumMsg").textContent="Style pack unlocked! Thanks for playing.";sound(900,.18)};
+start();update();
+</script></body></html>
