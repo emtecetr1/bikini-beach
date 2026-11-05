@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#082f49">
+<title>Bikini Beach — Telegram Mini App</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--navy:#082f49;--teal:#0f766e;--mint:#ccfbf1;--pink:#fb7185;--sand:#ffedd5;--ink:#163047}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:linear-gradient(160deg,#cffafe,#fef3c7 60%,#fbcfe8);min-height:100vh}
+.app{max-width:520px;margin:auto;min-height:100vh;padding:16px 16px 30px}
+header{display:flex;justify-content:space-between;align-items:center;color:var(--navy);margin:4px 0 14px}
+.brand{font-weight:900;font-size:21px;letter-spacing:-.7px}.coins{background:#fff9;border:1px solid #fff;padding:8px 12px;border-radius:99px;font-weight:800}
+.hero{background:linear-gradient(135deg,#0e7490,#115e59);color:white;border-radius:24px;padding:20px;box-shadow:0 12px 28px #0f766e30;position:relative;overflow:hidden}
+.hero:after{content:"☀️";position:absolute;font-size:90px;right:8px;top:0;opacity:.24}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;opacity:.8}
+h1{font-size:29px;line-height:1.05;margin:8px 0}.hero p{max-width:78%;font-size:14px;opacity:.9;margin:8px 0 14px}
+.progressline{height:8px;background:#ffffff45;border-radius:20px;overflow:hidden}.progressfill{height:100%;background:#fde68a;width:0;transition:.3s}
+.stats{display:flex;justify-content:space-between;font-size:12px;margin-top:8px;font-weight:700}
+.panel{background:#ffffffd9;border:1px solid #fff;border-radius:22px;padding:16px;margin-top:14px;box-shadow:0 8px 20px #164e6330}
+.panelhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+h2{font-size:17px;margin:0;color:var(--navy)}.muted{font-size:12px;color:#64748b}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.tile{border:0;border-radius:15px;aspect-ratio:1;background:linear-gradient(145deg,#0e7490,#164e63);color:white;font-size:26px;font-weight:800;box-shadow:inset 0 -4px #08334455;cursor:pointer}
+.tile.revealed{background:#fff7ed;color:#0f766e;border:2px solid #99f6e4;box-shadow:none}
+.tile.matched{background:#d1fae5;color:#0f766e;border:2px solid #5eead4;box-shadow:none}
+button:disabled{opacity:.65;cursor:default}
+.actions{display:flex;gap:9px;margin-top:13px}.primary,.secondary{border:0;border-radius:14px;padding:12px 15px;font-weight:800;cursor:pointer}.primary{background:var(--pink);color:white;flex:1;box-shadow:0 4px #be123c}.secondary{background:#e0f2fe;color:#075985}
+.message{font-size:13px;min-height:20px;margin-top:9px;color:#0f766e;font-weight:700}
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.character{border-radius:17px;padding:12px;background:linear-gradient(160deg,#fce7f3,#ffedd5);min-height:145px;position:relative;overflow:hidden}
+.character.locked{filter:saturate(.3);background:#e2e8f0}
+.avatar{font-size:43px;line-height:1.2}.character strong{display:block;font-size:14px}.character small{color:#64748b}
+.lock{position:absolute;right:10px;top:10px;font-size:18px}
+footer{text-align:center;color:#64748b;font-size:11px;margin:18px 0 0}
+#win{display:none;text-align:center;background:#fef3c7;border:1px solid #fcd34d;padding:13px;border-radius:15px;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand">🌴 BIKINI BEACH</div><div class="coins">🪙 <span id="coins">0</span></div></header>
+<section class="hero">
+ <div class="eyebrow">Summer puzzle club</div><h1>Play. Match.<br>Unlock the beach.</h1>
+ <p>Clear each memory challenge to collect stars and discover new beach-style characters.</p>
+ <div class="progressline"><div class="progressfill" id="progress"></div></div>
+ <div class="stats"><span id="levelLabel">LEVEL 1 / 4</span><span id="starsLabel">⭐ 0 / 4</span></div>
+</section>
+<section class="panel">
+ <div class="panelhead"><h2 id="challengeTitle">Level 1 · Shell match</h2><span class="muted" id="moves">Moves: 0</span></div>
+ <p class="muted">Find all matching pairs. Tap two cards to flip them.</p>
+ <div class="grid" id="board"></div>
+ <div class="message" id="message">Ready? Find the matching beach icons!</div>
+ <div id="win"><strong>✨ Level cleared!</strong><br><span id="winText">You earned 1 star and 25 coins.</span></div>
+ <div class="actions"><button class="primary" id="next" disabled>Next level →</button><button class="secondary" id="reset">Restart</button></div>
+</section>
+<section class="panel">
+ <div class="panelhead"><h2>Beach collection</h2><span class="muted" id="unlocked">0 / 4 unlocked</span></div>
+ <div class="gallery" id="gallery"></div>
+</section>
+<footer>All characters are fictional adults (21+). Progress is saved on this device.</footer>
+</div>
+<script>
+const tg=window.Telegram?.WebApp;
+if(tg){tg.ready();tg.expand();try{tg.setHeaderColor('#082f49');tg.setBackgroundColor('#cffafe')}catch(e){}}
+const levels=[
+ {name:"Shell match",icons:["🐚","🌺","🐠","🍍"]},
+ {name:"Ocean treasures",icons:["🦀","⭐","🐬","🪸"]},
+ {name:"Tropical treats",icons:["🥥","🍉","🧉","🍋"]},
+ {name:"Sunset memories",icons:["🌴","🌅","🕶️","🩴"]}
+];
+const people=[
+ {name:"Maya · Coral Bay",look:"Coral swimsuit • sunny shore",emoji:"👩🏻‍🦰",desc:"The cheerful beach explorer"},
+ {name:"Sofia · Palm Cove",look:"Turquoise swimsuit • palm beach",emoji:"👩🏽",desc:"The laid-back island artist"},
+ {name:"Luna · Sunset Point",look:"Violet swimsuit • golden hour",emoji:"👩🏾‍🦱",desc:"The sunset photographer"},
+ {name:"Nina · Blue Lagoon",look:"Ocean-blue swimsuit • lagoon",emoji:"👩🏼‍🦱",desc:"The adventurous swimmer"}
+];
+let level=0,coins=0,stars=0,moves=0,deck=[],first=null,lock=false,cleared=false;
+try{const s=JSON.parse(localStorage.getItem("bb-save")||"{}");level=Math.min(s.level||0,3);coins=s.coins||0;stars=s.stars||0}catch(e){}
+const $=id=>document.getElementById(id);
+function save(){try{localStorage.setItem("bb-save",JSON.stringify({level,coins,stars}))}catch(e){}}
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function start(){
+ first=null;lock=false;cleared=false;moves=0;$("moves").textContent="Moves: 0";$("win").style.display="none";$("next").disabled=true;
+ $("challengeTitle").textContent=`Level ${level+1} · ${levels[level].name}`;
+ deck=shuffle([...levels[level].icons,...levels[level].icons]).map((v,i)=>({v,id:i,shown:false,done:false}));
+ render();$("message").textContent="Find all matching beach icons!";update();
+}
+function render(){
+ const b=$("board");b.innerHTML="";
+ deck.forEach((c,i)=>{const btn=document.createElement("button");btn.className="tile"+(c.shown?" revealed":"")+(c.done?" matched":"");btn.textContent=(c.shown||c.done)?c.v:"?";btn.disabled=c.done;btn.setAttribute("aria-label",(c.shown||c.done)?c.v:"Hidden card");btn.onclick=()=>flip(i);b.appendChild(btn)});
+}
+function flip(i){
+ if(lock||cleared||deck[i].shown||deck[i].done)return;
+ deck[i].shown=true;render();
+ if(first===null){first=i;return}
+ moves++;$("moves").textContent="Moves: "+moves;
+ if(deck[first].v===deck[i].v){deck[first].done=true;deck[i].done=true;first=null;render();if(deck.every(c=>c.done))win()}
+ else{lock=true;const prev=first;first=null;setTimeout(()=>{deck[prev].shown=false;deck[i].shown=false;lock=false;render()},700)}
+}
+function win(){
+ cleared=true;stars=Math.max(stars,level+1);coins+=25;$("win").style.display="block";$("winText").textContent="You earned 1 star and 25 coins."; $("message").textContent="Beautiful work! The next beach stop is waiting."; $("next").disabled=false;save();update();
+}
+function update(){
+ $("coins").textContent=coins;$("starsLabel").textContent=`⭐ ${stars} / 4`;$("levelLabel").textContent=`LEVEL ${level+1} / 4`;$("progress").style.width=(stars/4*100)+"%";
+ $("unlocked").textContent=`${stars} / 4 unlocked`;
+ $("gallery").innerHTML="";
+ people.forEach((p,i)=>{const c=document.createElement("div");c.className="character"+(i>=stars?" locked":"");c.innerHTML=`<span class="lock">${i<stars?"✨":"🔒"}</span><div class="avatar">${i<stars?p.emoji:"🌴"}</div><strong>${i<stars?p.name:"Mystery beach guest"}</strong><small>${i<stars?p.look:"Clear level "+(i+1)+" to unlock"}</small>`;$("gallery").appendChild(c)});
+}
+$("next").onclick=()=>{if(level<3){level++;save();start()}else{$("message").textContent="You completed the whole beach collection! Restart to play again."; $("next").disabled=true}};
+$("reset").onclick=()=>start();
+start();
+</script>
+</body></html>
